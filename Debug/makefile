@@ -146,7 +146,7 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 EGR424_Project3_Kelsey_Jacob.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --advice:power=all --define=__MSP432P401R__ --define=ccs -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"EGR424_Project3_Kelsey_Jacob.map" --heap_size=1024 --stack_size=512 -i"C:/ti/ccsv8/ccs_base/arm/include" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/lib" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="EGR424_Project3_Kelsey_Jacob_linkInfo.xml" --rom_model -o "EGR424_Project3_Kelsey_Jacob.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --advice:power=all --define=__MSP432P401R__ --define=ccs -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"EGR424_Project3_Kelsey_Jacob.map" --heap_size=0x100 --stack_size=4096 -i"C:/ti/ccsv8/ccs_base/arm/include" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/lib" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="EGR424_Project3_Kelsey_Jacob_linkInfo.xml" --rom_model -o "EGR424_Project3_Kelsey_Jacob.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 

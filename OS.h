@@ -5,8 +5,11 @@
 #define TIME_1MS  
 #define TIME_2MS  						// This is what you should pass as the Timeslice value
 
+void OS_Init(void);
 
-						// Function protypes and variable declarations
+void SetInitialStack(int i);
+
+void OS_Launch(uint32_t theTimeSlice);
 
 
 #endif

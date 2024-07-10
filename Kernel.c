@@ -1,4 +1,12 @@
 // ===== Include appropriate header files =====
+#include "msp.h"
+#include "UART.h"
+#include "Threads.h"
+
+// standard includes
+#include <stdint.h>
+#include <stdbool.h>
+#include <stdio.h>
 
 // ===== This is the kernel that will setup everything and run the scheduler ======
 
@@ -14,29 +22,37 @@ FILE __stdin = {0};
 FILE __stdout = {1};
 FILE __stderr = {2};
 
+/**********PIN MAP************
+ * * * * * * * * * * * * * * *
+ ******* ON-BOARD LEDs *******
+ * RED                   >P2.0
+ * GREEN                 >P2.1
+ * BLUE                  >P2.2
+******************************/
+
 // ====== Called by C library console / file output =======
 int fputc(int c, FILE *f)
 {
     
-				// Write character to console using UART_Send()
-
-			// Return the character sent
+    return UART_Send((char)c);
 }
 
 // ====== For using printf() with format specifiers ======
 int fputs(const char *_ptr, register FILE *_fp)
 {
-    
-    len = UART_MSend(_ptr);     // Send a string using UART_MSend()
-
-                 // Return the length of the string
+    int len = UART_MSend(_ptr);     // Send a string using UART_MSend()
+    return len;                     // Return the length of the string
 }
 
 
 // ====== GPIO_Init() =======
 void GPIO_Init(void)
 {
-				// Initialize GPIO periperals needed in this project
+    // Initialize GPIO periperals needed in this project
+    P2->SEL0 &= ~0x07;  // GPIO for LEDs P2.0-P2.2
+    P2->SEL1 &= ~0x07;
+    P2->DIR |= 0x07;    // set LEDs as outputs
+    P2->OUT &= ~0X07;   // turn off all LEDs upon startup
   
 }
 
@@ -44,7 +60,7 @@ void GPIO_Init(void)
 // ======== Function to initialize LOCK (you need to modify) =============
 void Lock_Init(unsigned *lock)
 {
-    ;
+    *lock = 0;          // initialize lock to 0 (unlock)
 }
 
 // ======= Function to acquire the lock to be written in LockAcquire.asm ======
@@ -56,7 +72,7 @@ unsigned Lock_Acquire(unsigned *lock)
 // ======== Function to release LOCK (you need to modify) ===========
 void Lock_Release(unsigned *lock)
 {
-	;
+	*lock = 0;          // release the lock
 }
 
 

@@ -11,6 +11,7 @@ GEN_CMDS__FLAG :=
 
 ORDERED_OBJS += \
 "./Kernel.obj" \
+"./Lock.obj" \
 "./OS.obj" \
 "./OSasm.obj" \
 "./Threads.obj" \
@@ -160,9 +161,9 @@ EGR424_Project3_Kelsey_Jacob.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "Kernel.obj" "OS.obj" "OSasm.obj" "Threads.obj" "UART.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" 
+	-$(RM) "Kernel.obj" "Lock.obj" "OS.obj" "OSasm.obj" "Threads.obj" "UART.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" 
 	-$(RM) "Kernel.d" "OS.d" "Threads.d" "UART.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" 
-	-$(RM) "OSasm.d" 
+	-$(RM) "Lock.d" "OSasm.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

@@ -22,7 +22,7 @@ UART.obj: ../UART.h
 UART.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdio.h
 UART.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdarg.h
 UART.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdlib.h
-UART.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdlib.h
+UART.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdbool.h
 
 ../UART.c: 
 C:/ti/ccsv8/ccs_base/arm/include/msp.h: 
@@ -46,4 +46,4 @@ C:/ti/ccsv8/ccs_base/arm/include/system_msp432p401r.h:
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdio.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdarg.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdlib.h: 
-C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdlib.h: 
+C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdbool.h: 

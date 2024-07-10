@@ -9,6 +9,7 @@ CMD_SRCS += \
 ../msp432p401r.cmd 
 
 ASM_SRCS += \
+../Lock.asm \
 ../OSasm.asm 
 
 C_SRCS += \
@@ -29,6 +30,7 @@ C_DEPS += \
 
 OBJS += \
 ./Kernel.obj \
+./Lock.obj \
 ./OS.obj \
 ./OSasm.obj \
 ./Threads.obj \
@@ -37,10 +39,12 @@ OBJS += \
 ./system_msp432p401r.obj 
 
 ASM_DEPS += \
+./Lock.d \
 ./OSasm.d 
 
 OBJS__QUOTED += \
 "Kernel.obj" \
+"Lock.obj" \
 "OS.obj" \
 "OSasm.obj" \
 "Threads.obj" \
@@ -57,6 +61,7 @@ C_DEPS__QUOTED += \
 "system_msp432p401r.d" 
 
 ASM_DEPS__QUOTED += \
+"Lock.d" \
 "OSasm.d" 
 
 C_SRCS__QUOTED += \
@@ -68,6 +73,7 @@ C_SRCS__QUOTED += \
 "../system_msp432p401r.c" 
 
 ASM_SRCS__QUOTED += \
+"../Lock.asm" \
 "../OSasm.asm" 
 
 

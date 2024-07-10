@@ -17,14 +17,14 @@
 
 
 OS_DisableInterrupts:  .asmfunc			; Complete this
-        
-		
+        CPSID	I						; Disable interrupts
+		BX		LR						; Return from function
        .endasmfunc
 
 
 OS_EnableInterrupts:  .asmfunc			; Complete this
-        
-		
+        CPSIE	I						; Enable interrupts
+		BX		LR						; Return from function
        .endasmfunc
 
 

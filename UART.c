@@ -3,10 +3,9 @@
 #include "UART.h"
 
 // standard includes
+#include <stdint.h>
+#include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
-
-
 
 // ===== This function configures UART0 =====
 void UART0_Init(void)
@@ -35,14 +34,13 @@ int UART_Send(char a)
 int UART_MSend(char *a)
 {
     unsigned int len = strlen(a);
-		  
-	while(*a != '\0')                   // Loop until all the characters sent
-	{
-	    while(!(EUSCI_A0->IFG & 0x02)); // Wait for transmit buffer empty
-	    EUSCI_A0->TXBUF = *a++;         // Send a character
-	}
 
-	return len;                         // Return number of characters sent
+    while(*a != '\0')
+    {
+        while(!(EUSCI_A0 -> IFG & 0x02));   // wait for transmit buffer empty
+        EUSCI_A0->TXBUF = *a++;             // send a character
+    }
+    return len;                      // Return number of characters sent
 }
 
 
@@ -56,23 +54,5 @@ char UART_Receive(void)
 								        // Return the character received
 }
 
-// ===== This function... =====
-int fputc(int c, FILE *f)
-{
-    return UART_Send((char)c);
-}
 
-// ===== This function... =====
-int fputs(const char *_ptr, register FILE *_fp)
-{
-    unsigned int len = 0;
-
-    while(*_ptr)
-    {
-        UART_Send(*_ptr++);
-        len++;
-    }
-    return len;
-
-}
 

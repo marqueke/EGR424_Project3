@@ -40,7 +40,7 @@ void SetInitialStack(int i)
 {
   tcbs[i].sp = &Stacks[i][STACKSIZE-16]; // thread stack pointer
   Stacks[i][STACKSIZE-1] = 0x01000000;   // XPSR (store appropriate initial value) 	-- Saved by Exception // set to Thumb mode
-  //Stacks[i][STACKSIZE-2] =           ;   // PC (store appropriate initial value)    -- TBD
+  //Stacks[i][STACKSIZE-2] =           ;   // PC (store appropriate initial value)    -- TBD // set to thread address
   Stacks[i][STACKSIZE-3] = 0x14141414;   // R14 (store appropriate initial value)
   Stacks[i][STACKSIZE-4] = 0x12121212;   // R12 (store appropriate initial value)
   Stacks[i][STACKSIZE-5] = 0x03030303;   // R3 (store appropriate initial value)
@@ -66,24 +66,28 @@ int OS_AddThreads(void(*Thread0)(void), void(*Thread1)(void), void(*Thread2)(voi
 {
   int32_t status;
 
-									// Function call to start the critical section
-						   // next pointer of Thread 0 points to Thread 1 structure
-						   // next pointer of Thread 1 points to Thread 2 structure
-						   // next pointer of Thread 2 points to Thread 0 structure
-									// For Thread 0: 
-										// 1: Set the default values in stack
-										// 2: Make ReturnAddress stored on stack to point to Thread 0
-									// For Thread 1: 
-										// 1: Set the default values in stack
-										// 2: Make ReturnAddress stored on stack to point to Thread 1
-									// For Thread 2: 
-										// 1: Set the default values in stack
-										// 2: Make ReturnAddress stored on stack to point to Thread 2
-  
-  RunPt = &tcbs[0];       // Make RunPt point to Thread 0 so it will run first
-									// Function call to end the critical section
+  status = StartCritical();	    // Function call to start the critical section
 
-  return 1;               // successful
+  tcbs[0].next = &tcbs[1];      // next pointer of Thread 0 points to Thread 1 structure
+  tcbs[1].next = &tcbs[2];      // next pointer of Thread 1 points to Thread 2 structure
+  tcbs[2].next = &tcbs[1];      // next pointer of Thread 2 points to Thread 0 structure
+
+  // For Thread 0:
+  SetInitialStack(0);                           // 1: Set the default values in stack
+  Stacks[0][STACKSIZE-2] = (int32_t)(Thread0);  // 2: Make ReturnAddress stored on stack to point to Thread 0
+
+  // For Thread 1:
+  SetInitialStack(1);                           // 1: Set the default values in stack
+  Stacks[1][STACKSIZE-2] = (int32_t)(Thread0);  // 2: Make ReturnAddress stored on stack to point to Thread 1
+
+  // For Thread 2:
+  SetInitialStack(2);                           // 1: Set the default values in stack
+  Stacks[2][STACKSIZE-2] = (int32_t)(Thread0);  // 2: Make ReturnAddress stored on stack to point to Thread 2
+  
+  RunPt = &tcbs[0];                             // Make RunPt point to Thread 0 so it will run first
+  EndCritical(status);          // Function call to end the critical section
+
+  return 1;                     // successful
 }
 
 
@@ -108,9 +112,9 @@ void OS_Launch(uint32_t theTimeSlice)
 extern int32_t StartCritical(void) __attribute__((naked));
 int32_t StartCritical(void)
 {
-								// Save old status
-								// Disable interrupt mechanism in assembly
-								// Return to the calling function  
+    asm volatile(" MSR R0,PRIMASK\n");  // Save old status, PRIMASK = 1-bit interrupt mask register
+    asm volatile(" CPSID I\n");         // Disable interrupt mechanism in assembly
+    asm volatile(" BX LR\n");           // Return to calling function
 }
 
 
@@ -120,8 +124,8 @@ int32_t StartCritical(void)
 extern void EndCritical(int32_t primask) __attribute__((naked));
 void EndCritical(int32_t primask)
 {
-								// Enable interrupt mechanism in assembly
-								// Return to the calling function  
+    asm volatile(" MSR PRIMASK,R0\n");  // Enable interrupt mechanism in assembly
+    asm volatile(" BX LR\n");           // Return to the calling function
 }
 
 
@@ -129,5 +133,6 @@ void EndCritical(int32_t primask)
 extern void yield(void) __attribute__((naked));
 void yield(void)
 {
-						// Gain privileged access
+    asm volatile(" SVC #1\n");       // Gain privileged access
+
 }

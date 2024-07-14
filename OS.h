@@ -11,5 +11,8 @@ void SetInitialStack(int i);
 
 void OS_Launch(uint32_t theTimeSlice);
 
+int32_t StartCritical(void);
+
+void EndCritical(int32_t primask);
 
 #endif

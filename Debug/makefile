@@ -11,7 +11,7 @@ GEN_CMDS__FLAG :=
 
 ORDERED_OBJS += \
 "./Kernel.obj" \
-"./Lock.obj" \
+"./LockAcquire.obj" \
 "./OS.obj" \
 "./OSasm.obj" \
 "./Threads.obj" \
@@ -147,7 +147,7 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 EGR424_Project3_Kelsey_Jacob.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --advice:power=all --define=__MSP432P401R__ --define=ccs -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"EGR424_Project3_Kelsey_Jacob.map" --heap_size=0x100 --stack_size=4096 -i"C:/ti/ccsv8/ccs_base/arm/include" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/lib" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="EGR424_Project3_Kelsey_Jacob_linkInfo.xml" --rom_model -o "EGR424_Project3_Kelsey_Jacob.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --opt_for_speed=5 --advice:power=all --define=__MSP432P401R__ --define=ccs -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"EGR424_Project3_Kelsey_Jacob.map" --heap_size=0x100 --stack_size=4096 -i"C:/ti/ccsv8/ccs_base/arm/include" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/lib" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="EGR424_Project3_Kelsey_Jacob_linkInfo.xml" --rom_model -o "EGR424_Project3_Kelsey_Jacob.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
@@ -161,9 +161,9 @@ EGR424_Project3_Kelsey_Jacob.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "Kernel.obj" "Lock.obj" "OS.obj" "OSasm.obj" "Threads.obj" "UART.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" 
+	-$(RM) "Kernel.obj" "LockAcquire.obj" "OS.obj" "OSasm.obj" "Threads.obj" "UART.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" 
 	-$(RM) "Kernel.d" "OS.d" "Threads.d" "UART.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" 
-	-$(RM) "Lock.d" "OSasm.d" 
+	-$(RM) "LockAcquire.d" "OSasm.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

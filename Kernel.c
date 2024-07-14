@@ -64,10 +64,13 @@ void Lock_Init(unsigned *lock)
 }
 
 // ======= Function to acquire the lock to be written in LockAcquire.asm ======
+extern unsigned lock_acquire(unsigned *lock);
+/*
 unsigned Lock_Acquire(unsigned *lock)
 {
   return 1; // always succeeds
 }
+*/
 
 // ======== Function to release LOCK (you need to modify) ===========
 void Lock_Release(unsigned *lock)

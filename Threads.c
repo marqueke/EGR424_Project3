@@ -2,6 +2,7 @@
 #include "msp.h"
 #include "Threads.h"
 #include "UART.h"
+#include "OS.h"
 
 // standard includes
 #include <stdint.h>
@@ -48,7 +49,7 @@ void Thread1(void)
   
     while(1)
     {
-        if(Lock_Acquire(&threadlock))		// Try to acquire lock and if successful
+        if(lock_acquire(&threadlock))		// Try to acquire lock and if successful
         {
             printf("\n\rEntered");
             yield();					// Give up control voluntarily (context switch "interrupt")
@@ -69,7 +70,7 @@ void Thread2(void)
 {
     while(1)
     {
-        if(Lock_Acquire(&threadlock))		// Try to acquire lock and if successful
+        if(lock_acquire(&threadlock))		// Try to acquire lock and if successful
         {
             printf("\n\rEntered");
             yield();					// Give up control voluntarily (context switch "interrupt")

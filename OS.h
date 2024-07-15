@@ -15,4 +15,12 @@ int32_t StartCritical(void);
 
 void EndCritical(int32_t primask);
 
+int OS_AddThreads(void(*Thread0)(void), void(*Thread1)(void), void(*Thread2)(void));
+
+void OS_Launch(uint32_t theTimeSlice);
+
+void yield(void);
+
+
+
 #endif

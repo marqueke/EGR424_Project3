@@ -23,6 +23,7 @@ Threads.obj: ../UART.h
 Threads.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdio.h
 Threads.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdarg.h
 Threads.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdlib.h
+Threads.obj: ../OS.h
 Threads.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdbool.h
 
 ../Threads.c: 
@@ -48,4 +49,5 @@ C:/ti/ccsv8/ccs_base/arm/include/system_msp432p401r.h:
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdio.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdarg.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdlib.h: 
+../OS.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdbool.h: 

@@ -5,9 +5,10 @@
 // ===== Function prototypes of functions written in OSasm.asm =====
 extern void OS_DisableInterrupts(void);
 extern void OS_EnableInterrupts(void);
+extern void StartOS(void);
 
 #define NUMTHREADS  3             // Maximum number of threads
-#define STACKSIZE   100           // Number of 32-bit words in stack (You will have to keep increasing intelligently if code does not work)
+#define STACKSIZE   200           // Number of 32-bit words in stack (You will have to keep increasing intelligently if code does not work)
 
 // ===== Structure to store state of thread =====
 struct tcb
@@ -40,7 +41,7 @@ void SetInitialStack(int i)
 {
   tcbs[i].sp = &Stacks[i][STACKSIZE-16]; // thread stack pointer
   Stacks[i][STACKSIZE-1] = 0x01000000;   // XPSR (store appropriate initial value) 	-- Saved by Exception // set to Thumb mode
-  //Stacks[i][STACKSIZE-2] =           ;   // PC (store appropriate initial value)    -- TBD // set to thread address
+//  Stacks[i][STACKSIZE-2] = (int32_t)(Thread0 + i);   // PC (store appropriate initial value)    -- TBD // set to thread address
   Stacks[i][STACKSIZE-3] = 0x14141414;   // R14 (store appropriate initial value)
   Stacks[i][STACKSIZE-4] = 0x12121212;   // R12 (store appropriate initial value)
   Stacks[i][STACKSIZE-5] = 0x03030303;   // R3 (store appropriate initial value)
@@ -70,7 +71,7 @@ int OS_AddThreads(void(*Thread0)(void), void(*Thread1)(void), void(*Thread2)(voi
 
   tcbs[0].next = &tcbs[1];      // next pointer of Thread 0 points to Thread 1 structure
   tcbs[1].next = &tcbs[2];      // next pointer of Thread 1 points to Thread 2 structure
-  tcbs[2].next = &tcbs[1];      // next pointer of Thread 2 points to Thread 0 structure
+  tcbs[2].next = &tcbs[0];      // next pointer of Thread 2 points to Thread 0 structure
 
   // For Thread 0:
   SetInitialStack(0);                           // 1: Set the default values in stack
@@ -78,11 +79,11 @@ int OS_AddThreads(void(*Thread0)(void), void(*Thread1)(void), void(*Thread2)(voi
 
   // For Thread 1:
   SetInitialStack(1);                           // 1: Set the default values in stack
-  Stacks[1][STACKSIZE-2] = (int32_t)(Thread0);  // 2: Make ReturnAddress stored on stack to point to Thread 1
+  Stacks[1][STACKSIZE-2] = (int32_t)(Thread1);  // 2: Make ReturnAddress stored on stack to point to Thread 1
 
   // For Thread 2:
   SetInitialStack(2);                           // 1: Set the default values in stack
-  Stacks[2][STACKSIZE-2] = (int32_t)(Thread0);  // 2: Make ReturnAddress stored on stack to point to Thread 2
+  Stacks[2][STACKSIZE-2] = (int32_t)(Thread2);  // 2: Make ReturnAddress stored on stack to point to Thread 2
   
   RunPt = &tcbs[0];                             // Make RunPt point to Thread 0 so it will run first
   EndCritical(status);          // Function call to end the critical section
@@ -112,9 +113,13 @@ void OS_Launch(uint32_t theTimeSlice)
 extern int32_t StartCritical(void) __attribute__((naked));
 int32_t StartCritical(void)
 {
-    asm volatile(" MSR R0,PRIMASK\n");  // Save old status, PRIMASK = 1-bit interrupt mask register
+    int32_t primask;
+
+    asm volatile(" MRS R0,PRIMASK\n");  // Save old status, PRIMASK = 1-bit interrupt mask register
     asm volatile(" CPSID I\n");         // Disable interrupt mechanism in assembly
     asm volatile(" BX LR\n");           // Return to calling function
+
+    return primask;
 }
 
 
@@ -124,7 +129,8 @@ int32_t StartCritical(void)
 extern void EndCritical(int32_t primask) __attribute__((naked));
 void EndCritical(int32_t primask)
 {
-    asm volatile(" MSR PRIMASK,R0\n");  // Enable interrupt mechanism in assembly
+    asm volatile(" MSR PRIMASK,R0\n");  // General register to special register
+    asm volatile(" CPSIE I\n");         // Enable interrupt mechanism in assembly
     asm volatile(" BX LR\n");           // Return to the calling function
 }
 

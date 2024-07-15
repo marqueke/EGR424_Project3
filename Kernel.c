@@ -2,6 +2,7 @@
 #include "msp.h"
 #include "UART.h"
 #include "Threads.h"
+#include "OS.h"
 
 // standard includes
 #include <stdint.h>
@@ -11,9 +12,10 @@
 // ===== This is the kernel that will setup everything and run the scheduler ======
 
 
-#define TIMESLICE    		    // Thread context switch time in system time units
-
+#define TIMESLICE 6000  		    // Thread context switch time in system time units
+                                    // timeslice = desired / clock period (desired = 2ms)
 unsigned threadlock;            // Variable Lock
+int count = 0;                  // Define count
 
 // Code below is the interface to the C standard I/O library
 // All the I/O are directed to the console which is UART0
@@ -82,15 +84,16 @@ void Lock_Release(unsigned *lock)
 // ======= MAIN =========
 int main(void)
 {
-								// stop watchdog timer
-								// Initialize the global thread lock
-                                // Initialize OS
-                                // Initialize UART0 peripheral
-                                // Initialize GPIO peripheral
+    WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD; // stop watchdog timer
 
-								// Add Threads to the list
-								// Launch OS
+    Lock_Init(&threadlock);     // Initialize the global thread lock
+    OS_Init();                  // Initialize OS
+    UART0_Init();               // Initialize UART0 peripheral
+    GPIO_Init();                // Initialize GPIO peripheral
 
-  return 0;            // This never executes
+	OS_AddThreads(Thread0, Thread1, Thread2);   // Add Threads to the list
+	OS_Launch(TIMESLICE);                // Launch OS
+
+	return 0;            // This never executes
 
 }

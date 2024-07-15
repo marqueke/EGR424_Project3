@@ -23,6 +23,7 @@ Kernel.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdio.h
 Kernel.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdarg.h
 Kernel.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdlib.h
 Kernel.obj: ../Threads.h
+Kernel.obj: ../OS.h
 Kernel.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdbool.h
 
 ../Kernel.c: 
@@ -48,4 +49,5 @@ C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdio.h:
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdarg.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdlib.h: 
 ../Threads.h: 
+../OS.h: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.8.LTS/include/stdbool.h: 

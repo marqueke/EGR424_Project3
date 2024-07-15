@@ -1,6 +1,6 @@
 ;;
 ; Name: Kelsey Marquez
-; Date: May 30th, 2024
+; Date:
 ; Description:
 ;
 

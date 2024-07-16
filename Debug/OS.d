@@ -19,6 +19,7 @@ OS.obj: C:/ti/ccsv8/ccs_base/arm/include/CMSIS/cmsis_compiler.h
 OS.obj: C:/ti/ccsv8/ccs_base/arm/include/CMSIS/cmsis_ccs.h
 OS.obj: C:/ti/ccsv8/ccs_base/arm/include/system_msp432p401r.h
 OS.obj: ../OS.h
+OS.obj: ../Threads.h
 
 ../OS.c: 
 C:/ti/ccsv8/ccs_base/arm/include/msp.h: 
@@ -39,3 +40,4 @@ C:/ti/ccsv8/ccs_base/arm/include/CMSIS/cmsis_compiler.h:
 C:/ti/ccsv8/ccs_base/arm/include/CMSIS/cmsis_ccs.h: 
 C:/ti/ccsv8/ccs_base/arm/include/system_msp432p401r.h: 
 ../OS.h: 
+../Threads.h: 

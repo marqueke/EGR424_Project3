@@ -27,9 +27,7 @@ FILE __stderr = {2};
 /**********PIN MAP************
  * * * * * * * * * * * * * * *
  ******* ON-BOARD LEDs *******
- * RED                   >P2.0
  * GREEN                 >P2.1
- * BLUE                  >P2.2
 ******************************/
 
 // ====== Called by C library console / file output =======
@@ -51,10 +49,10 @@ int fputs(const char *_ptr, register FILE *_fp)
 void GPIO_Init(void)
 {
     // Initialize GPIO periperals needed in this project
-    P2->SEL0 &= ~0x07;  // GPIO for LEDs P2.0-P2.2
-    P2->SEL1 &= ~0x07;
-    P2->DIR |= 0x07;    // set LEDs as outputs
-    P2->OUT &= ~0X07;   // turn off all LEDs upon startup
+    P2->SEL0 &= ~BIT1;  // GPIO for Green LED
+    P2->SEL1 &= ~BIT1;
+    P2->DIR |= BIT1;    // set LEDs as outputs
+    P2->OUT &= ~BIT1;   // turn off all LEDs upon startup
   
 }
 

@@ -21,8 +21,15 @@ extern int count;                   // external decleration of count
 // ===== Responsible for toggling on-board GREEN RGB LED infinitely ====
 // ===== Use BIT-BANDING approach to reference the LED =====
 // ===== Control taken away pre-emptively by the KERNEL =====
-#define LED_DIR (*((volatile unsigned char *) 0x420960A4))
-#define LED_OUT (*((volatile unsigned char *) 0x42096064))
+// BIT-BANDING APPROACH -> alias address of P2DIR and P2OUT
+// P2DIR = 0x40004C05
+// P2OUT = 0x40004C03
+// byte offset = 0x40004C05 - 0x40000000 = 0x00004C05
+// bit word offset = (0x00004C05 * 32) + (1 * 4) = 0x000980A4
+// bit word address (alias) = 0x42000000 + 0x000980A4 = 0x420980A4
+
+#define LED_DIR (*((volatile unsigned char *) 0x420980A4))
+#define LED_OUT (*((volatile unsigned char *) 0x42098064))
 
 void Thread0(void)
 {

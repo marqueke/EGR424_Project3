@@ -1,6 +1,7 @@
 // ===== Include appropriate header files =====
 #include "msp.h"
 #include "OS.h"
+#include "Threads.h"
 
 // ===== Function prototypes of functions written in OSasm.asm =====
 extern void OS_DisableInterrupts(void);
@@ -41,7 +42,6 @@ void SetInitialStack(int i)
 {
   tcbs[i].sp = &Stacks[i][STACKSIZE-16]; // thread stack pointer
   Stacks[i][STACKSIZE-1] = 0x01000000;   // XPSR (store appropriate initial value) 	-- Saved by Exception // set to Thumb mode
-//  Stacks[i][STACKSIZE-2] = (int32_t)(Thread0 + i);   // PC (store appropriate initial value)    -- TBD // set to thread address
   Stacks[i][STACKSIZE-3] = 0x14141414;   // R14 (store appropriate initial value)
   Stacks[i][STACKSIZE-4] = 0x12121212;   // R12 (store appropriate initial value)
   Stacks[i][STACKSIZE-5] = 0x03030303;   // R3 (store appropriate initial value)
@@ -113,13 +113,9 @@ void OS_Launch(uint32_t theTimeSlice)
 extern int32_t StartCritical(void) __attribute__((naked));
 int32_t StartCritical(void)
 {
-    int32_t primask;
-
     asm volatile(" MRS R0,PRIMASK\n");  // Save old status, PRIMASK = 1-bit interrupt mask register
     asm volatile(" CPSID I\n");         // Disable interrupt mechanism in assembly
     asm volatile(" BX LR\n");           // Return to calling function
-
-    return primask;
 }
 
 
@@ -130,7 +126,7 @@ extern void EndCritical(int32_t primask) __attribute__((naked));
 void EndCritical(int32_t primask)
 {
     asm volatile(" MSR PRIMASK,R0\n");  // General register to special register
-    asm volatile(" CPSIE I\n");         // Enable interrupt mechanism in assembly
+    //asm volatile(" CPSIE I\n");         // Enable interrupt mechanism in assembly
     asm volatile(" BX LR\n");           // Return to the calling function
 }
 

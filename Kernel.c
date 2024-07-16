@@ -60,7 +60,11 @@ void GPIO_Init(void)
 // ======== Function to initialize LOCK (you need to modify) =============
 void Lock_Init(unsigned *lock)
 {
-    *lock = 0;          // initialize lock to 0 (unlock)
+    int32_t status;
+    status = StartCritical();   // disable interrupts
+
+    *lock = 0;                  // initialize lock to 0 (unlock)
+    EndCritical(status);        // enable interrupts
 }
 
 // ======= Function to acquire the lock to be written in LockAcquire.asm ======
@@ -75,7 +79,11 @@ unsigned Lock_Acquire(unsigned *lock)
 // ======== Function to release LOCK (you need to modify) ===========
 void Lock_Release(unsigned *lock)
 {
-	*lock = 0;          // release the lock
+    int32_t status;
+    status = StartCritical(); // disable interrupts
+
+    *lock = 0;                        // release the lock
+    EndCritical(status);              // enable interrupts
 }
 
 

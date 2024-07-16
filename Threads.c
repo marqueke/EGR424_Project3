@@ -31,6 +31,9 @@ extern int count;                   // external decleration of count
 #define LED_DIR (*((volatile unsigned char *) 0x420980A4))
 #define LED_OUT (*((volatile unsigned char *) 0x42098064))
 
+extern unsigned lock_acquire(unsigned *lock); // external declaration of lock_acquire
+extern void Lock_Release(unsigned *lock);     // external declaration of Lock_Release
+
 void Thread0(void)
 {
     // pre-emptive control will be given up by Systick timer

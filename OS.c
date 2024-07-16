@@ -116,6 +116,8 @@ int32_t StartCritical(void)
     asm volatile(" MRS R0,PRIMASK\n");  // Save old status, PRIMASK = 1-bit interrupt mask register
     asm volatile(" CPSID I\n");         // Disable interrupt mechanism in assembly
     asm volatile(" BX LR\n");           // Return to calling function
+
+    return 0;
 }
 
 
